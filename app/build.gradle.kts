@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.alexsch01.youtube"
+    namespace = "com.alexsch01.twitter"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.alexsch01.youtube"
+        applicationId = "com.alexsch01.twitter"
         minSdk = 33
         targetSdk = 35
         versionCode = 1

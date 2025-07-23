@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "YTWebView"
+rootProject.name = "XWebView"
 include(":app")
