@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
-            ) {
+            ): Boolean {
                 return !request?.url.toString().startsWith(baseUrl)
             }
         }
