@@ -29,7 +29,17 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                return !request?.url.toString().startsWith(baseUrl)
+                val website = request?.url.toString()
+
+                if (website.startsWith(baseUrl)) {
+                    return false
+                }
+
+                view?.context?.startActivity(Intent(
+                    Intent.ACTION_VIEW,
+                    website.toUri()
+                ))
+                return true
             }
         }
 
