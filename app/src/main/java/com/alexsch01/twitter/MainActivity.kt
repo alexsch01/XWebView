@@ -35,11 +35,7 @@ class MainActivity : AppCompatActivity() {
                     return false
                 }
 
-                view?.context?.startActivity(Intent(
-                    Intent.ACTION_VIEW,
-                    website.toUri()
-                ))
-                return true
+                return super.shouldOverrideUrlLoading(view, request)
             }
         }
 
