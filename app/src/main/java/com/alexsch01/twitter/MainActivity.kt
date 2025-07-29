@@ -7,6 +7,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
@@ -35,7 +36,11 @@ class MainActivity : AppCompatActivity() {
                     return false
                 }
 
-                return super.shouldOverrideUrlLoading(view, request)
+                view?.context?.startActivity(Intent(
+                    Intent.ACTION_VIEW,
+                    website.toUri()
+                ))
+                return true
             }
         }
 
