@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         // Workaround for fullscreen videos
         myWebView.webChromeClient = object : WebChromeClient() {
-            private val frameLayout: CustomFrameLayout = findViewById(R.id.customFrameLayout)
+            private val frameLayout: FrameLayout = findViewById(R.id.frameLayout)
             private val insetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
