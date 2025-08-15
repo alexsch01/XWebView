@@ -17,7 +17,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
-    private var customViewActive = false
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,11 +62,9 @@ class MainActivity : AppCompatActivity() {
                 insetsController.hide(WindowInsetsCompat.Type.systemBars())
 
                 frameLayout.addView(view, 1)
-                customViewActive = true
             }
 
             override fun onHideCustomView() {
-                customViewActive = false
                 frameLayout.removeViewAt(1)
 
                 // get out of proper fullscreen mode
@@ -93,9 +90,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (customViewActive) {
-            myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
-        } else if (myWebView.canGoBack()) {
+        if (myWebView.canGoBack()) {
             myWebView.goBack()
         } else {
             super.onBackPressed()
