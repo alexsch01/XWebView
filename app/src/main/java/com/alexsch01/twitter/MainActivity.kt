@@ -3,14 +3,20 @@ package com.alexsch01.twitter
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
+    private var customViewActive = false
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +50,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Workaround for fullscreen videos
+        myWebView.webChromeClient = object : WebChromeClient() {
+            private val frameLayout: CustomFrameLayout = findViewById(R.id.customFrameLayout)
+            private val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+
+            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
+                // get into proper fullscreen mode
+                insetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                insetsController.hide(WindowInsetsCompat.Type.systemBars())
+
+                frameLayout.addView(view, 1)
+                customViewActive = true
+            }
+
+            override fun onHideCustomView() {
+                customViewActive = false
+                frameLayout.removeViewAt(1)
+
+                // get out of proper fullscreen mode
+                insetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
+                insetsController.show(WindowInsetsCompat.Type.systemBars())
+            }
+        }
+
         if (intent.dataString == null) {
             myWebView.loadUrl(baseUrl)
         } else {
@@ -60,7 +92,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (myWebView.canGoBack()) {
+        if (customViewActive) {
+            myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
+        } else if (myWebView.canGoBack()) {
             myWebView.goBack()
         } else {
             super.onBackPressed()
