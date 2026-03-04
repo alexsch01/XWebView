@@ -74,18 +74,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (intent.dataString == null) {
+        val myIntent = intent.dataString
+        if (myIntent == null) {
             myWebView.loadUrl(baseUrl)
         } else {
-            myWebView.loadUrl(intent.dataString!!)
+            myWebView.loadUrl(myIntent)
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        if (intent?.dataString != null) {
-            myWebView.loadUrl(intent.dataString!!)
+        val myIntent = intent?.dataString
+        if (myIntent != null) {
+            myWebView.loadUrl(myIntent)
         }
     }
 
